@@ -1,0 +1,35 @@
+{
+  "name": "latlongchooser",
+  "version": "1.0.0",
+  "description": "This will be a webcomponent that allows picking a location several ways as a popup div",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jnylund/latlongchooser.git"
+  },
+  "author": "Joel Nylund",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jnylund/latlongchooser/issues"
+  },
+  "homepage": "https://github.com/jnylund/latlongchooser#readme",
+  "dependencies": {
+    "@em-polymer/google-map": "^3.0.0-pre.5",
+    "@polymer/iron-pages": "^3.0.1",
+    "@polymer/lit-element": "^0.6.3",
+    "@polymer/paper-button": "^3.0.1",
+    "@polymer/paper-dialog": "^3.0.1",
+    "@polymer/paper-dropdown-menu": "^3.0.1",
+    "@polymer/paper-input": "^3.0.1",
+    "@polymer/paper-item": "^3.0.1",
+    "@polymer/paper-listbox": "^3.0.1",
+    "@polymer/paper-tabs": "^3.0.1",
+    "google-map": "^1.1.0"
+  },
+  "devDependencies": {
+    "@webcomponents/webcomponentsjs": "^2.1.3"
+  }
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<script type="module" src="LatLongChooser.js"></script>
+
+<script>
+    var dialogStatus = false;
+    
+
+    function toggleDialog()
+    {
+        console.log("toggle called current status is " + dialogStatus)
+        var latLongDialog = document.getElementById('latLongDialog');
+        latLongDialog.showLatLongDialog();
+      // dialogStatus = !dialogStatus
+    }
+
+</script>
+
+
+</head>
+
+<body>
+
+    <a href="#" id="linkToOpen" onclick="toggleDialog(); return false;">Click Here</a>
+
+    <lat-long-chooser id="latLongDialog"></lat-long-chooser>
+
+</body>
+
+</html>
