@@ -35,16 +35,30 @@ export class LatLongChooser extends LitElement {
 
       updateOtherValues() {
 
+        // No 2 way binding in lit-html.... This is yucky, must be a better way right?
          this.latDegrees = parseInt(this.shadowRoot.getElementById("latDegrees").value);
          this.latMinutes = parseFloat(this.shadowRoot.getElementById("latMinutes").value);
          this.latSeconds = parseFloat(this.shadowRoot.getElementById("latSeconds").value);
          this.latDirection = this.shadowRoot.getElementById("lat-direction").value;
+         
+         this.longDegrees = parseInt(this.shadowRoot.getElementById("longDegrees").value);
+         this.longMinutes = parseFloat(this.shadowRoot.getElementById("longMinutes").value);
+         this.longSeconds = parseFloat(this.shadowRoot.getElementById("longSeconds").value);
+         this.longDirection = this.shadowRoot.getElementById("long-direction").value;
 
 
           console.log("update other values was called")
           this.latDecimalDegrees = this.degreesMinsSecsToDecimal(this.latDegrees, this.latMinutes, this.latSeconds, this.latDirection);
           this.longDecimalDegrees = this.degreesMinsSecsToDecimal(this.longDegrees, this.longMinutes, this.longSeconds, this.longDirection);
          
+      }
+
+      saveConvertedValues() {
+       console.log("save other values called");
+
+       // close the dialog
+       let dialog = this.shadowRoot.getElementById("dialog")
+       dialog.close()
       }
 
       degreesMinsSecsToDecimal(degrees,minutes,seconds,direction) {
@@ -114,7 +128,7 @@ export class LatLongChooser extends LitElement {
                  width: 300px;
               }
              </style>
-            <h2>Please find your location using one of the options below:</h2>
+            <h2>Please find your location using Degrees Minutes Seconds Format:</h2>
          <form>
             <div class="groupBox">
               <h3>Degrees Minutes Seconds</h3>
@@ -135,8 +149,6 @@ export class LatLongChooser extends LitElement {
                   <select id="lat-direction">
                     <option value="N" >North</option>
                     <option value="S">South</option>
-                    <option value="E">East</option>
-                    <option value="W">West</option>
                   </select>
                 </div>
               </div>
@@ -144,19 +156,17 @@ export class LatLongChooser extends LitElement {
               <p> Longitude: </p>
               <div class="degminsec">
                 <div>
-                <label for="degrees">Degrees:</label><input type="text" name="long-degrees" .value="${this.longDegrees}"><br>
+                <label for="degrees">Degrees:</label><input type="text" name="long-degrees" .value="${this.longDegrees}" id="longDegrees"><br>
                 </div>
                 <div>
-                <label for="minutes">Minutes:</label><input type="text" name="long-minutes" .value="${this.longMinutes}">
+                <label for="minutes">Minutes:</label><input type="text" name="long-minutes" .value="${this.longMinutes}" id="longMinutes">
                 </div>
                 <div>
-                <label for="seconds">Seconds:</label><input type="text" name="long-seconds" .value="${this.longSeconds}">
+                <label for="seconds">Seconds:</label><input type="text" name="long-seconds" .value="${this.longSeconds}" id="longSeconds">
                 </div>
                 <div>
                 <label for="direction">Direction:</label>
                   <select id="long-direction">
-                    <option value="N">North</option>
-                    <option value="S">South</option>
                     <option value="E">East</option>
                     <option value="W" selected>West</option>
                   </select>
@@ -181,7 +191,11 @@ export class LatLongChooser extends LitElement {
                   </div>
                 </div>
               </div>
-              
+              <div class="spacerdiv"> </div>
+              <div>
+                 <button type="button" class="convert-btn" @click="${this.saveConvertedValues}">Save</button>
+               </div>
+             </div>
                         
          </form>
 
