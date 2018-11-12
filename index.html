@@ -6,15 +6,11 @@
 <script type="module" src="LatLongChooser.js"></script>
 
 <script>
-    var dialogStatus = false;
-    
-
-    function toggleDialog()
+   
+    function showDialog()
     {
-        console.log("toggle called current status is " + dialogStatus)
         var latLongDialog = document.getElementById('latLongDialog');
         latLongDialog.showLatLongDialog();
-      // dialogStatus = !dialogStatus
     }
 
 </script>
@@ -24,9 +20,14 @@
 
 <body>
 
-    <a href="#" id="linkToOpen" onclick="toggleDialog(); return false;">Click Here</a>
-
-    <lat-long-chooser id="latLongDialog"></lat-long-chooser>
+    <a href="#" id="linkToOpen" onclick="showDialog(); return false;">Click Here</a>
+    <div> Result is:</div>
+    <div id="latDecimalId"> </div>
+    <div id="longDecimalId"> </div>
+    
+    <lat-long-chooser id="latLongDialog"  >
+       
+    </lat-long-chooser>
 
 </body>
 
