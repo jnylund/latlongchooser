@@ -259,7 +259,7 @@ export class LatLongChooser extends LitElement {
              <div class="groupBox">
                 <h3><slot name="map-title">Map Location</slot></h3><br/>
                 <div>
-                  <google-maps-limited apiKey="AIzaSyCT3TxI-zpsvF1n3Z33GZTOkB3c5eSDVMk" >
+                  <google-maps-limited  >
                    </google-maps-limited>
                 </div>
             </div>
