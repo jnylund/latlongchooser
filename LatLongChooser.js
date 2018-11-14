@@ -29,10 +29,7 @@ export class LatLongChooser extends LitElement {
           longDirection: String,
           latDecimalDegrees: Number,
           longDecimalDegrees: Number,
-          mapMarkers: Array,
-          resultingLatLong: {
-            type: Function,
-          }
+          mapMarkers: Array
         };
       }
 
@@ -133,20 +130,7 @@ export class LatLongChooser extends LitElement {
           {
             position: {lat:41, lng:-112},
             InfoWindowContent: "<h3>The Salt Lake City, UT Temple</h3>"
-          },
-          {
-            position: {lat:33, lng:-117},
-            InfoWindowContent: "<h3>The San Diego, CA Temple</h3>"
-          },
-          {
-            position: {lat:29, lng:-82},
-            InfoWindowContent: "<h3>The Orlando, FL Temple</h3>"
-          },
-          {
-            position: {lat:43, lng:-70},
-            InfoWindowContent: "<h3>The Cape Elizabeth, ME Temple</h3>"
-          }
-        ]
+          }  ]
       }
 
        /**
@@ -154,10 +138,8 @@ export class LatLongChooser extends LitElement {
        */  
       render() {
         return html`
-        <style>
-        </style>
-   
-        <paper-dialog id="dialog">
+       
+        <paper-dialog id="dialog" >
              <style>
                .groupBox {
                 padding-right: 20px;
@@ -259,7 +241,7 @@ export class LatLongChooser extends LitElement {
              <div class="groupBox">
                 <h3><slot name="map-title">Map Location</slot></h3><br/>
                 <div>
-                  <google-maps-limited  >
+                  <google-maps-limited apiKey="" >
                    </google-maps-limited>
                 </div>
             </div>

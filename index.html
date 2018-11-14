@@ -1,34 +1,41 @@
 <!DOCTYPE html>
-
-<html>
 <head>
-
 <script type="module" src="LatLongChooser.js"></script>
-
 <script>
-   
     function showDialog()
     {
         var latLongDialog = document.getElementById('latLongDialog');
         latLongDialog.showLatLongDialog();
     }
-
 </script>
-
-
 </head>
 
 <body>
-
     <a href="#" id="linkToOpen" onclick="showDialog(); return false;">Click Here</a>
     <div> Result is:</div>
     <div id="latDecimalId"> </div>
     <div id="longDecimalId"> </div>
     
-    <lat-long-chooser id="latLongDialog"  >
-       
+    <lat-long-chooser id="latLongDialog" buttonBackgroundColor="red" buttonForegroundColor="yellow" >
+            <span slot="degrees-mins-secs-title">Deg/Min/Sec</span>
+            <span slot="latitude-title">Lat:</span>
+            <span slot="longitude-title">Long:</span>
+            <span slot="dec-degrees-title">Degrees in Decimal Form:</span>
+            <span slot="map-title">My Map Locator:</span>
+            <script>
+                    var latLongDialog = document.getElementById('latLongDialog');
+                     latLongDialog.addEventListener('lag-long-chosen', function(e){
+                      console.log("got event from dialog")
+                      var latDegrees = e.target.latDecimalDegrees;
+                      var longDegrees = e.target.longDecimalDegrees;
+                      var latLocalElement = document.getElementById("latDecimalId")
+                      latLocalElement.innerHTML = latDegrees
+                      var longLocalElement = document.getElementById("longDecimalId")
+                      longLocalElement.innerHTML = longDegrees
+                    });   
+            </script>
+          
     </lat-long-chooser>
 
 </body>
-
 </html>
