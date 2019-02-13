@@ -1,4 +1,4 @@
-import {LitElement, html} from '@polymer/lit-element';
+import {LitElement, html} from 'lit-element';
 import '@polymer/paper-dialog/paper-dialog.js';
 import "google-maps-limited/google-maps-limited.js";
 
@@ -42,6 +42,8 @@ export class LatLongChooser extends LitElement {
 
         let dialog = this.shadowRoot.getElementById("dialog")
         dialog.open()
+
+      
       }
 
       /**
@@ -65,6 +67,15 @@ export class LatLongChooser extends LitElement {
           this.latDecimalDegrees = this.degreesMinsSecsToDecimal(this.latDegrees, this.latMinutes, this.latSeconds, this.latDirection);
           this.longDecimalDegrees = this.degreesMinsSecsToDecimal(this.longDegrees, this.longMinutes, this.longSeconds, this.longDirection);
          
+          // Remove any existing markers
+          this.shadowRoot.querySelector('google-maps-limited').markers =  [];
+
+          this.shadowRoot.querySelector('google-maps-limited').markers =  [
+            {
+              position: {lat:this.latDecimalDegrees, lng:this.longDecimalDegrees},
+              InfoWindowContent: "Selection Marker"
+            }
+          ]
       }
 
       /**
@@ -98,6 +109,28 @@ export class LatLongChooser extends LitElement {
         return dd;
       }
 
+
+      decimalToDMS(lat, lng) {
+ 
+        var convertLat = Math.abs(lat);
+        var LatDeg = Math.floor(convertLat);
+        var LatMin = (Math.floor((convertLat - LatDeg) * 60));
+        var LatSeconds = (Math.floor((convertLat - LatDeg) * 3600));
+        var LatCardinal = ((lat > 0) ? "N" : "S");
+         
+        var convertLng = Math.abs(lng);
+        var LngDeg = Math.floor(convertLng);
+        var LngMin = (Math.floor((convertLng - LngDeg) * 60));
+        var LngSeconds = (Math.floor((convertLng - LngDeg) * 3600));
+        var LngCardinal = ((lng > 0) ? "E" : "W");
+         
+        //return LatDeg + LatCardinal + LatMin  + "<br />" + LngDeg + LngCardinal + LngMin;
+        return [LatDeg,LatMin,LatSeconds,LatCardinal,LngDeg,LngMin,LngSeconds,LngCardinal];
+}
+
+
+
+
       /**
        * Used to build this compoenents default info
        * @constructor
@@ -107,7 +140,7 @@ export class LatLongChooser extends LitElement {
         this.latDegrees = 38;
         this.latMinutes = 9;
         this.latSeconds = 43.9416;
-        this.latDirection = "S"
+        this.latDirection = "N"
 
         this.longDegrees = 93;
         this.longMinutes = 9;
@@ -125,12 +158,41 @@ export class LatLongChooser extends LitElement {
 
           }
 
-         //this.mapMarkers = [{ position: {lat: -38.162206, lgn: -93.164063} }];  
          this.mapMarkers  = [
           {
             position: {lat:41, lng:-112},
             InfoWindowContent: "<h3>The Salt Lake City, UT Temple</h3>"
           }  ]
+
+          this.addEventListener('lag-long-chosen', (e) => {
+            console.log("got event from map")
+            this.updateFromMap(e);
+          });   
+      }
+
+
+      updateFromMap(e)
+      {
+        var latDegrees = e.detail.lat;
+        var longDegrees = e.detail.long;
+        var latLocalElement = document.getElementById("latDecimalId");
+        this.shadowRoot.getElementById("dec-lat-degrees").value = latDegrees;
+        this.shadowRoot.getElementById("dec-long-degrees").value = longDegrees;
+        // todo update degrees mins secs
+        let dmsResuslts = this.decimalToDMS(latDegrees,longDegrees);
+        // [LatDeg,LatMin,LatSeconds,LatCardinal,LngDeg,LngMin,LngSeconds,LngCardinal];
+
+        this.shadowRoot.getElementById("latDegrees").value = dmsResuslts[0];
+        this.shadowRoot.getElementById("latMinutes").value = dmsResuslts[1];
+        this.shadowRoot.getElementById("latSeconds").value = dmsResuslts[2];
+        this.shadowRoot.getElementById("lat-direction").value = dmsResuslts[3];
+        
+        this.shadowRoot.getElementById("longDegrees").value = dmsResuslts[4];
+        this.shadowRoot.getElementById("longMinutes").value = dmsResuslts[5];
+        this.shadowRoot.getElementById("longSeconds").value = dmsResuslts[6];
+        this.shadowRoot.getElementById("long-direction").value = dmsResuslts[7];
+
+
       }
 
        /**
@@ -228,10 +290,10 @@ export class LatLongChooser extends LitElement {
                 <h3><slot name="dec-degrees-title">Decimal Degrees</slot></h3>
                 <div class="degminsec">
                   <div>
-                    <label for="degrees">Latitude:</label><input type="text" name="dec-lat-degrees" .value="${this.latDecimalDegrees}"><br>
+                    <label for="degrees">Latitude:</label><input type="text" id="dec-lat-degrees" name="dec-lat-degrees" .value="${this.latDecimalDegrees}"><br>
                   </div>
                   <div>
-                    <label for="degrees">Logitude:</label><input type="text" name="dec-long-degrees" .value="${this.longDecimalDegrees}">
+                    <label for="degrees">Logitude:</label><input type="text" id="dec-long-degrees" name="dec-long-degrees" .value="${this.longDecimalDegrees}">
                   </div>
                 </div>
               </div>
@@ -241,7 +303,7 @@ export class LatLongChooser extends LitElement {
              <div class="groupBox">
                 <h3><slot name="map-title">Map Location</slot></h3><br/>
                 <div>
-                  <google-maps-limited apiKey="" >
+                  <google-maps-limited apiKey="AIzaSyDCbIQb0qcwa3DzBhJmuJwl6c36lcm7gYo" >
                    </google-maps-limited>
                 </div>
             </div>
